@@ -1,0 +1,21 @@
+services:
+  web-server:
+    image: nginx:latest
+    container_name: epam-nginx
+    ports:
+      - "8081:80"
+    volumes:
+      - ./html:/usr/share/nginx/html
+    depends_on:
+      - db-storage
+    restart: always
+
+  db-storage:
+    image: redis:alpine
+    container_name: epam-redis
+    restart: always
+
+  stats-monitor:
+    image: alpine
+    container_name: epam-monitor
+    command: /bin/sh -c "while true; do echo 'System Check OK' && sleep 60; done"
